@@ -4,6 +4,15 @@
     <ProjectReference Include="..\BaristaXpertControl.Domain\BaristaXpertControl.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Handlers\" />
+    <Folder Include="Models\" />
+    <Folder Include="Persistences\" />
+    <Folder Include="Queries\" />
+    <Folder Include="Responses\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
