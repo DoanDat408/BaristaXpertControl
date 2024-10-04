@@ -7,6 +7,8 @@ using BaristaXpertControl.Infrastructure.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using BaristaXpertControl.Application.Persistences;
+using BaristaXpertControl.Infrastructure.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,8 @@ builder.Services.AddMediatR(typeof(CreateRoleCommand).Assembly);
 
 // Đăng ký UnitOfWork và các Repository
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddControllers();
 
 // Swagger configuration
