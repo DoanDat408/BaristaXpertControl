@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaristaXpertControl.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241004162840_2ndtime")]
-    partial class _2ndtime
+    [Migration("20241005065922_LimitRolesToAdminManagerEmployee")]
+    partial class LimitRolesToAdminManagerEmployee
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
