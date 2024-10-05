@@ -1,49 +1,89 @@
-﻿using BaristaXpertControl.Application.Features.AuthManagement.RoleManagement.Commands;
-using BaristaXpertControl.Application.Features.AuthManagement.RoleManagement.Queries;
-using MediatR;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace BaristaXpertControl.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class RolesController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RolesController(IMediator mediator)
+        // Danh sách các vai trò hợp lệ
+        private readonly List<string> _validRoles = new List<string> { "Admin", "Manager", "Employee" };
+
+        public RolesController(RoleManager<IdentityRole> roleManager)
         {
-            _mediator = mediator;
+            _roleManager = roleManager;
         }
 
+        // Tạo vai trò mới
         [HttpPost("create")]
-        public async Task<IActionResult> CreateRole([FromBody] CreateRoleCommand command)
+        public async Task<IActionResult> CreateRole(string roleName)
         {
-            var result = await _mediator.Send(command);
-            return Ok(result);
+            if (string.IsNullOrEmpty(roleName))
+                return BadRequest("Role name must not be empty.");
+
+            // Kiểm tra vai trò có hợp lệ không
+            if (!_validRoles.Contains(roleName))
+                return BadRequest("Invalid role. Only 'Admin', 'Manager', and 'Employee' roles are allowed.");
+
+            var roleExists = await _roleManager.RoleExistsAsync(roleName);
+            if (roleExists)
+                return Conflict("Role already exists.");
+
+            var result = await _roleManager.CreateAsync(new IdentityRole(roleName));
+
+            if (result.Succeeded)
+                return Ok($"Role '{roleName}' created successfully.");
+            else
+                return BadRequest(result.Errors);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetRole(int id)
+        // Lấy danh sách tất cả vai trò
+        [HttpGet("get-all")]
+        public IActionResult GetAllRoles()
         {
-            var result = await _mediator.Send(new GetRoleQuery { RoleId = id });
-            return Ok(result);
+            var roles = _roleManager.Roles;
+            return Ok(roles);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateRole(int id, [FromBody] UpdateRoleCommand command)
+        // Xóa vai trò
+        [HttpDelete("delete/{roleName}")]
+        public async Task<IActionResult> DeleteRole(string roleName)
         {
-            if (id != command.Id) return BadRequest("Id không khớp với Role cần cập nhật.");
-            var result = await _mediator.Send(command);
-            return Ok(result);
+            var role = await _roleManager.FindByNameAsync(roleName);
+
+            if (role == null)
+                return NotFound("Role not found.");
+
+            var result = await _roleManager.DeleteAsync(role);
+
+            if (result.Succeeded)
+                return Ok($"Role '{roleName}' deleted successfully.");
+            else
+                return BadRequest(result.Errors);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRole(int id)
+        // Cập nhật tên vai trò
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateRole(string currentRoleName, string newRoleName)
         {
-            var result = await _mediator.Send(new DeleteRoleCommand { RoleId = id });
-            return result ? Ok() : NotFound();
+            var role = await _roleManager.FindByNameAsync(currentRoleName);
+
+            if (role == null)
+                return NotFound("Role not found.");
+
+            role.Name = newRoleName;
+            var result = await _roleManager.UpdateAsync(role);
+
+            if (result.Succeeded)
+                return Ok($"Role '{currentRoleName}' updated to '{newRoleName}'.");
+            else
+                return BadRequest(result.Errors);
         }
     }
 }

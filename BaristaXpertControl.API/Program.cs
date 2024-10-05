@@ -1,30 +1,94 @@
 ﻿using AutoMapper;
-using BaristaXpertControl.Application.Common.Persistences;
 using BaristaXpertControl.Application.Common.Profiles;
-using BaristaXpertControl.Application.Features.AuthManagement.RoleManagement.Commands;
-using BaristaXpertControl.Infrastructure.Repositories;
 using BaristaXpertControl.Infrastructure.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using BaristaXpertControl.Application.Persistences;
 using BaristaXpertControl.Infrastructure.UnitOfWork;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-// Đăng ký AppDbContext với EntityFramework và cấu hình chuỗi kết nối
+// Đăng ký ApplicationDbContext với EntityFramework và cấu hình chuỗi kết nối
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Đăng ký MediatR với assembly chứa các Handler
+// Đăng ký ASP.NET Core Identity với IdentityUser và IdentityRole, sử dụng ApplicationDbContext
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+// Cấu hình JWT Authentication
+var secretKey = builder.Configuration["Jwt:SecretKey"];
+var key = Encoding.ASCII.GetBytes(secretKey);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false, 
+        ValidateAudience = false, 
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+// Swagger configuration
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "BaristaXpertControl API", Version = "v1" });
+
+    // Cấu hình JWT cho Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter your token in the text input below.\r\n\r\nExample: \"12345abcdef\""
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
+// Đăng ký AutoMapper với assembly chứa các profile
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
-builder.Services.AddMediatR(typeof(CreateRoleCommand).Assembly);
+
+// Đăng ký MediatR với assembly chứa các Handler
+builder.Services.AddMediatR(typeof(Program).Assembly);
 
 // Đăng ký UnitOfWork và các Repository
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// Đăng ký các dịch vụ Controllers
 builder.Services.AddControllers();
 
 // Swagger configuration
@@ -44,10 +108,15 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseMiddleware<BaristaXpertControl.API.Middlewares.CustomJwtMiddleware>();
+
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+// Middleware Authentication và Authorization
+app.UseAuthentication();  
+app.UseAuthorization();  
 
+// Map Controllers
 app.MapControllers();
 
 app.Run();
