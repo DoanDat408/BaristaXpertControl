@@ -11,10 +11,6 @@
 
   <ItemGroup>
     <Folder Include="Common\Responses\" />
-    <Folder Include="Features\AuthManagement\RoleManagement\Commands\" />
-    <Folder Include="Features\AuthManagement\RoleManagement\Handlers\" />
-    <Folder Include="Features\AuthManagement\RoleManagement\Models\" />
-    <Folder Include="Features\AuthManagement\RoleManagement\Queries\" />
   </ItemGroup>
 
   <PropertyGroup>
