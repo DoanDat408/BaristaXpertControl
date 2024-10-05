@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "0dik0faiOaE=",
+  "dgSpecHash": "5wy3mrqvi6M=",
   "success": true,
-  "projectFilePath": "C:\\Users\\RTD0224\\source\\repos\\BaristaXpertControl\\BaristaXpertControl.Application\\BaristaXpertControl.Application.csproj",
+  "projectFilePath": "D:\\BXC\\BaristaXpertControl.Application\\BaristaXpertControl.Application.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\RTD0224\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
-    "C:\\Users\\RTD0224\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
-    "C:\\Users\\RTD0224\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
-    "C:\\Users\\RTD0224\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
+    "C:\\Users\\Admin\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }
