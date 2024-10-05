@@ -4088,23 +4088,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\RTD0224\\.nuget\\packages\\": {},
+    "C:\\Users\\Admin\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\RTD0224\\source\\repos\\BaristaXpertControl\\BaristaXpertControl.API\\BaristaXpertControl.API.csproj",
+      "projectUniqueName": "D:\\BXC\\BaristaXpertControl.API\\BaristaXpertControl.API.csproj",
       "projectName": "BaristaXpertControl.API",
-      "projectPath": "C:\\Users\\RTD0224\\source\\repos\\BaristaXpertControl\\BaristaXpertControl.API\\BaristaXpertControl.API.csproj",
-      "packagesPath": "C:\\Users\\RTD0224\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\RTD0224\\source\\repos\\BaristaXpertControl\\BaristaXpertControl.API\\obj\\",
+      "projectPath": "D:\\BXC\\BaristaXpertControl.API\\BaristaXpertControl.API.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "D:\\BXC\\BaristaXpertControl.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\RTD0224\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4120,11 +4120,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\RTD0224\\source\\repos\\BaristaXpertControl\\BaristaXpertControl.Application\\BaristaXpertControl.Application.csproj": {
-              "projectPath": "C:\\Users\\RTD0224\\source\\repos\\BaristaXpertControl\\BaristaXpertControl.Application\\BaristaXpertControl.Application.csproj"
+            "D:\\BXC\\BaristaXpertControl.Application\\BaristaXpertControl.Application.csproj": {
+              "projectPath": "D:\\BXC\\BaristaXpertControl.Application\\BaristaXpertControl.Application.csproj"
             },
-            "C:\\Users\\RTD0224\\source\\repos\\BaristaXpertControl\\BaristaXpertControl.Infrastructure\\BaristaXpertControl.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\RTD0224\\source\\repos\\BaristaXpertControl\\BaristaXpertControl.Infrastructure\\BaristaXpertControl.Infrastructure.csproj"
+            "D:\\BXC\\BaristaXpertControl.Infrastructure\\BaristaXpertControl.Infrastructure.csproj": {
+              "projectPath": "D:\\BXC\\BaristaXpertControl.Infrastructure\\BaristaXpertControl.Infrastructure.csproj"
             }
           }
         }
@@ -4186,7 +4186,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300\\RuntimeIdentifierGraph.json"
       }
     }
   }
