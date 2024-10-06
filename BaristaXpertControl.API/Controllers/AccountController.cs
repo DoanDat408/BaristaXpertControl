@@ -26,6 +26,7 @@ namespace BaristaXpertControl.API.Controllers
             _configuration = configuration;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("register")]
         public async Task<IActionResult> Register(string username, string password)
         {
@@ -54,7 +55,7 @@ namespace BaristaXpertControl.API.Controllers
             return Unauthorized("Invalid login attempt.");
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost("assign-role")]
         public async Task<IActionResult> AssignRole(string username, string role)
         {

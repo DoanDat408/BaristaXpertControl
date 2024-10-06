@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using BaristaXpertControl.Application.Common.Persistences;
+using BaristaXpertControl.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,9 +86,11 @@ builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 // Đăng ký MediatR với assembly chứa các Handler
 builder.Services.AddMediatR(typeof(Program).Assembly);
+builder.Services.AddMediatR(typeof(BaristaXpertControl.Application.Features.StoreManagement.Handlers.CreateStoreHandler).Assembly);
 
 // Đăng ký UnitOfWork và các Repository
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 
 // Đăng ký các dịch vụ Controllers
 builder.Services.AddControllers();

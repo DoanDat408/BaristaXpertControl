@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Responses\" />
+    <Folder Include="Features\AuthManagement\RoleManagement\" />
   </ItemGroup>
 
   <PropertyGroup>
