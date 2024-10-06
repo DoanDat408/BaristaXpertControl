@@ -1,5 +1,7 @@
-﻿using BaristaXpertControl.Application.Persistences;
+﻿using BaristaXpertControl.Application.Common.Persistences;
+using BaristaXpertControl.Application.Persistences;
 using BaristaXpertControl.Infrastructure.Data;
+using BaristaXpertControl.Infrastructure.Repositories;
 using System;
 
 namespace BaristaXpertControl.Infrastructure.UnitOfWork
@@ -11,6 +13,15 @@ namespace BaristaXpertControl.Infrastructure.UnitOfWork
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        private IStoreRepository _storeRepository;
+        public IStoreRepository StoreRepository
+        {
+            get
+            {
+                return _storeRepository ??= new StoreRepository(_context); // Lazy initialization
+            }
         }
 
         public async Task<int> CompleteAsync()
