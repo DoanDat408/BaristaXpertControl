@@ -22,17 +22,16 @@ jobs:
           dotnet-version: '7.0.x'
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build BaristaXpertControl.csproj --configuration Release
 
-     - name: dotnet publish
+      - name: Publish with dotnet
         run: dotnet publish BaristaXpertControl.csproj -c Release -o ${{ runner.workspace }}/myapp
-
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ${{ runner.workspace }}/myapp
 
   deploy:
     runs-on: windows-latest
@@ -62,5 +61,4 @@ jobs:
         with:
           app-name: 'BaristaXpertControlAPI'
           slot-name: 'Production'
-          package: .
-          
+          package: ${{ runner.workspace }}/myapp
