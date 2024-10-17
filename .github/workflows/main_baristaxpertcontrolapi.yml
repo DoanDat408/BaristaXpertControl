@@ -35,6 +35,9 @@ jobs:
       - name: Publish with dotnet
         run: dotnet publish BaristaXpertControl.API/BaristaXpertControl.API.csproj --configuration Release --output ${{ runner.workspace }}/myapp --no-build
 
+      - name: Verify published output
+        run: ls ${{ runner.workspace }}/myapp
+
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
@@ -56,6 +59,9 @@ jobs:
         with:
           name: .net-app
 
+      - name: Verify downloaded artifact
+        run: ls ${{ runner.workspace }}/.net-app
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -69,4 +75,4 @@ jobs:
         with:
           app-name: 'BaristaXpertControlAPI'
           slot-name: 'Production'
-          package: ${{ runner.workspace }}/myapp
+          package: ${{ runner.workspace }}/.net-app
