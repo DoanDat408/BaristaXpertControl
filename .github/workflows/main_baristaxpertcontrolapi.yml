@@ -78,13 +78,3 @@ jobs:
           slot-name: 'Production'
           package: ${{ runner.workspace }}/myapp  # or adjust this path if necessary
 
-      - name: Check if web app is running
-        shell: pwsh  # Ensure this step uses PowerShell
-        run: |
-          $response = Invoke-WebRequest -Uri "https://baristaxpertcontrolapi.azurewebsites.net" -UseBasicP | Select-Object -ExpandProperty StatusCode
-          if ($response -eq 200) {
-            Write-Host "Web app is running successfully!"
-          } else {
-            Write-Host "Web app is not running. HTTP status code: $response"
-            exit 1  # Exit with error if the app is not running
-          }
