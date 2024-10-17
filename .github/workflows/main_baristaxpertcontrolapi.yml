@@ -43,7 +43,7 @@ jobs:
         with:
           name: .net-app
           path: ${{ runner.workspace }}/myapp
-
+          
   deploy:
     runs-on: windows-latest
     needs: build
@@ -58,9 +58,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
+          path: ${{ runner.workspace }}/myapp
 
-      - name: Verify downloaded artifact
-        run: ls ${{ runner.workspace }}/.net-app
+      - name: List contents of output directory
+        run: dir ${{ runner.workspace }}/myapp
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -75,4 +76,5 @@ jobs:
         with:
           app-name: 'BaristaXpertControlAPI'
           slot-name: 'Production'
-          package: ${{ runner.workspace }}/.net-app
+          package: ${{ runner.workspace }}/myapp  # or adjust this path if necessary
+
