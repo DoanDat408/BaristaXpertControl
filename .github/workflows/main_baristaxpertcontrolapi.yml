@@ -43,7 +43,7 @@ jobs:
         with:
           name: .net-app
           path: ${{ runner.workspace }}/myapp
-          
+
   deploy:
     runs-on: windows-latest
     needs: build
@@ -64,11 +64,21 @@ jobs:
         run: dir ${{ runner.workspace }}/myapp
 
       - name: Login to Azure
+        id: azure-login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Check Azure login status
+        run: |
+          if ($?) {
+            Write-Host "Azure login successful."
+          } else {
+            Write-Host "Azure login failed."
+            exit 1  # Exit with error if login fails
+          }
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -78,3 +88,6 @@ jobs:
           slot-name: 'Production'
           package: ${{ runner.workspace }}/myapp  # or adjust this path if necessary
 
+      - name: Get Azure deployment logs
+        run: |
+          az webapp deployment show --name BaristaXpertControlAPI --resource-group <YourResourceGroupName> --query "status" -o table
