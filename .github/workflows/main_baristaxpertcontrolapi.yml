@@ -78,3 +78,12 @@ jobs:
           slot-name: 'Production'
           package: ${{ runner.workspace }}/myapp  # or adjust this path if necessary
 
+      - name: Check if web app is running
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://baristaxpertcontrolapi.azurewebsites.net)
+          if [ "$response" -eq 200 ]; then
+            echo "Web app is running successfully!"
+          else
+            echo "Web app is not running. HTTP status code: $response"
+            exit 1  # Exit with error if the app is not running
+          fi
