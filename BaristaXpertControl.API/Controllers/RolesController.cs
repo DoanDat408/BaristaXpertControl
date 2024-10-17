@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BaristaXpertControl.API.Controllers
 {
-    [Authorize(Roles = "Admin")]
+   // [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class RolesController : ControllerBase
