@@ -49,6 +49,17 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000")  // Thay thế bằng domain của frontend
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 // Swagger configuration
 builder.Services.AddSwaggerGen(c =>
 {
@@ -101,7 +112,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -112,15 +122,18 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseMiddleware<BaristaXpertControl.API.Middlewares.CustomJwtMiddleware>();
-
 app.UseHttpsRedirection();
 
-// Middleware Authentication và Authorization
-app.UseAuthentication();  
-app.UseAuthorization();  
+app.UseRouting();
+app.UseCors("AllowSpecificOrigins");
 
-// Map Controllers
-app.MapControllers();
+// Middleware Authentication và Authorization
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();
+
