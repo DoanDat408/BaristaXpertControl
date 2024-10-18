@@ -55,7 +55,7 @@ namespace BaristaXpertControl.API.Controllers
             return Unauthorized("Invalid login attempt.");
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost("assign-role")]
         public async Task<IActionResult> AssignRole(string username, string role)
         {
