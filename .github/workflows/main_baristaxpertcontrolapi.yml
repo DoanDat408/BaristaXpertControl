@@ -43,6 +43,10 @@ jobs:
         with:
           name: .net-app
           path: ${{ runner.workspace }}/myapp
+
+      - name: Set ASPNETCORE_ENVIRONMENT to Development
+        run: az webapp config appsettings set --resource-group <ResourceGroupName> --name BaristaXpertControlAPI --settings ASPNETCORE_ENVIRONMENT=Development
+
           
   deploy:
     runs-on: windows-latest
