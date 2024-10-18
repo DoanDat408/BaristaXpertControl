@@ -26,7 +26,7 @@ namespace BaristaXpertControl.API.Controllers
             _configuration = configuration;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost("register")]
         public async Task<IActionResult> Register(string username, string password)
         {
