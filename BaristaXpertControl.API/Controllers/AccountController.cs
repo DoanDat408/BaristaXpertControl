@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BaristaXpertControl.Application.Features.AuthManagement.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +27,7 @@ namespace BaristaXpertControl.API.Controllers
             _configuration = configuration;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost("register")]
         public async Task<IActionResult> Register(string username, string password)
         {
@@ -41,21 +42,22 @@ namespace BaristaXpertControl.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var result = await _signInManager.PasswordSignInAsync(username, password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, false, false);
 
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByNameAsync(username);
-                var token = await GenerateJwtToken(user); 
-                return Ok(new { token }); 
+                var user = await _userManager.FindByNameAsync(loginDto.Username);
+                var token = await GenerateJwtToken(user);
+                return Ok(new { token });
             }
 
             return Unauthorized("Invalid login attempt.");
         }
 
-        [Authorize(Roles = "Admin")]
+
+        //[Authorize(Roles = "Admin")]
         [HttpPost("assign-role")]
         public async Task<IActionResult> AssignRole(string username, string role)
         {
