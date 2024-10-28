@@ -53,4 +53,4 @@ jobs:
           app-name: 'BaristaXpertControlAPI'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_90E05C572ADD4983AC32CC8EB9F74D2C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CE388AF5499C48F49B8E64A34E0185C0 }}
