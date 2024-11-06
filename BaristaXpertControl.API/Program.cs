@@ -54,7 +54,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigins",
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000")  // Thay thế bằng domain của frontend
+            policy.WithOrigins("https://gray-water-0635d5e00.5.azurestaticapps.net")  // Thay thế bằng domain của frontend
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
