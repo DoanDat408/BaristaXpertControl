@@ -1,6 +1,7 @@
 ﻿using BaristaXpertControl.Application.Features.StoreManagement.Commands;
 using BaristaXpertControl.Application.Features.StoreManagement.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -18,6 +19,7 @@ namespace BaristaXpertControl.API.Controllers
         }
 
         // API để tạo mới Store
+        [Authorize(Roles = "Admin")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateStore([FromBody] CreateStoreCommand command)
         {
