@@ -2,10 +2,11 @@
 
 namespace BaristaXpertControl.Application.Persistences
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
+        IUserRepository Users { get; }
+        IRoleRepository Roles { get; }
         IStoreRepository StoreRepository { get; }
         Task<int> CompleteAsync();
-        void Dispose();
     }
 }

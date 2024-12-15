@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BaristaXpertControl.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -18,11 +18,11 @@ namespace BaristaXpertControl.Infrastructure.Data
         {
             base.OnModelCreating(builder);
 
+            // Configure Store entity relationships
             builder.Entity<Store>()
                 .HasMany(s => s.StoreUsers)
                 .WithOne(su => su.Store)
                 .HasForeignKey(su => su.StoreId);
         }
-
     }
 }

@@ -1,7 +1,9 @@
 ﻿using BaristaXpertControl.Application.Common.Persistences;
 using BaristaXpertControl.Application.Persistences;
+using BaristaXpertControl.Domain.Entities;
 using BaristaXpertControl.Infrastructure.Data;
 using BaristaXpertControl.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Identity;
 using System;
 
 namespace BaristaXpertControl.Infrastructure.UnitOfWork
@@ -9,19 +11,22 @@ namespace BaristaXpertControl.Infrastructure.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UnitOfWork(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public IUserRepository Users { get; private set; }
+        public IRoleRepository Roles { get; private set; }
+        public IStoreRepository StoreRepository { get; private set; } // Thêm StoreRepository vào
 
-        private IStoreRepository _storeRepository;
-        public IStoreRepository StoreRepository
+        public UnitOfWork(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            get
-            {
-                return _storeRepository ??= new StoreRepository(_context); // Lazy initialization
-            }
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+
+            Users = new UserRepository(_userManager, _roleManager);
+            Roles = new RoleRepository(_roleManager);
+            StoreRepository = new StoreRepository(_context); // Khởi tạo StoreRepository
         }
 
         public async Task<int> CompleteAsync()
